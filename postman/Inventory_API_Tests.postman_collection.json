@@ -1,0 +1,172 @@
+{
+  "info": {
+    "name": "Inventory API Tests",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": "Tests for Inventory Management API - Web Services Assignment 1"
+  },
+  "variable": [
+    {"key": "baseUrl", "value": "http://localhost:8000"},
+    {"key": "testProductId", "value": "9997"}
+  ],
+  "item": [
+    {
+      "name": "getSingleProduct",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": "{{baseUrl}}/getSingleProduct?product_id=1001"
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test('Status code is 200', function () { pm.response.to.have.status(200); });",
+              "pm.test('Response has ProductID', function () {",
+              "    var json = pm.response.json();",
+              "    pm.expect(json).to.have.property('ProductID', 1001);",
+              "});"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "getAll",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": "{{baseUrl}}/getAll"
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test('Status code is 200', function () { pm.response.to.have.status(200); });",
+              "pm.test('Response is array', function () {",
+              "    var json = pm.response.json();",
+              "    pm.expect(json).to.be.an('array');",
+              "});"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "addNew",
+      "request": {
+        "method": "POST",
+        "header": [{"key": "Content-Type", "value": "application/json"}],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"ProductID\": 9997,\n  \"Name\": \"Newman Test Product\",\n  \"UnitPrice\": 49.99,\n  \"StockQuantity\": 5,\n  \"Description\": \"Product added by Newman test\"\n}"
+        },
+        "url": "{{baseUrl}}/addNew"
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test('Status code is 200', function () { pm.response.to.have.status(200); });",
+              "pm.test('Product added successfully', function () {",
+              "    var json = pm.response.json();",
+              "    pm.expect(json.message).to.include('added');",
+              "});"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "deleteOne",
+      "request": {
+        "method": "DELETE",
+        "header": [],
+        "url": "{{baseUrl}}/deleteOne?product_id=9997"
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test('Status code is 200', function () { pm.response.to.have.status(200); });",
+              "pm.test('Product deleted', function () {",
+              "    var json = pm.response.json();",
+              "    pm.expect(json.message).to.include('deleted');",
+              "});"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "startsWith",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": "{{baseUrl}}/startsWith?letter=s"
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test('Status code is 200', function () { pm.response.to.have.status(200); });",
+              "pm.test('Products start with S', function () {",
+              "    var json = pm.response.json();",
+              "    pm.expect(json).to.be.an('array');",
+              "});"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "paginate",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": "{{baseUrl}}/paginate?start_id=1001&end_id=1050"
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test('Status code is 200', function () { pm.response.to.have.status(200); });",
+              "pm.test('Returns at most 10 products', function () {",
+              "    var json = pm.response.json();",
+              "    pm.expect(json.length).to.be.at.most(10);",
+              "});"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "convert",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": "{{baseUrl}}/convert?product_id=1001"
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test('Status code is 200', function () { pm.response.to.have.status(200); });",
+              "pm.test('Has PriceEUR', function () {",
+              "    var json = pm.response.json();",
+              "    pm.expect(json).to.have.property('PriceEUR');",
+              "    pm.expect(json).to.have.property('PriceUSD');",
+              "});"
+            ]
+          }
+        }
+      ]
+    }
+  ]
+}
