@@ -1,4 +1,3 @@
-# tests for the api endpoints
 import pytest
 from fastapi.testclient import TestClient
 
@@ -93,7 +92,7 @@ def test_paginate(api_client):
     assert len(data) <= 10
 
 
-# mock the exchange rate api so test doesnt call it
+# mock the exchange rate api so test doesn't call it
 def test_convert(api_client):
     from unittest.mock import MagicMock, patch
     mock_response = MagicMock()

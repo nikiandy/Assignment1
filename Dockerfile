@@ -1,4 +1,3 @@
-# ubuntu base image
 FROM ubuntu:22.04
 
 ENV DEBIAN_FRONTEND=noninteractive

@@ -1,4 +1,3 @@
-# loads products from csv into mongodb
 import csv
 import os
 import sys

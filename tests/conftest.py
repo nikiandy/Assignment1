@@ -1,4 +1,3 @@
-# uses fake db so dont need the real mongodb for tests
 import os
 
 import mongomock
@@ -7,7 +6,7 @@ import pytest
 os.environ["TESTING"] = "1"
 
 
-# runs before every test, swaps real db for mongomock
+# runs before every test swaps real db for mongomock
 @pytest.fixture(autouse=True)
 def mock_mongodb(monkeypatch):
     client = mongomock.MongoClient()

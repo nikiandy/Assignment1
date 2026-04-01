@@ -1,4 +1,3 @@
-# inventory api - main file
 from contextlib import asynccontextmanager
 import os
 import time
@@ -39,7 +38,7 @@ def get_db():
     return client[DATABASE_NAME][COLLECTION_NAME]
 
 
-# for monitoring - tracks requests and how long they take
+# tracks requests and how long they take (for monitoring)
 REQUEST_COUNT = Counter(
     "inventory_api_requests_total",
     "Total number of API requests",
@@ -131,7 +130,7 @@ def delete_one(product_id: int = Query(..., gt=0)):
     return {"message": "Product deleted successfully"}
 
 
-# find products whose name starts with given letter
+# find products which name starts with given letter
 @app.get("/startsWith")
 def starts_with(
     letter: str = Query(..., min_length=1, max_length=1)
@@ -144,7 +143,7 @@ def starts_with(
     return products
 
 
-# get up to 10 products in id range, sorted by id
+# get up to 10 products in id range sorted by id
 @app.get("/paginate")
 def paginate(
     start_id: int = Query(..., gt=0),
